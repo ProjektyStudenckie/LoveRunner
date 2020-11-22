@@ -1,8 +1,7 @@
 player = {}
 
 function love.load()
-    love.window.setFullscreen(true, "desktop")
-    print(success)
+    print(love.window.setFullscreen(true, "desktop"))
     player.x = love.graphics.getWidth()/2
     player.y = love.graphics.getHeight()/2
     player.img = love.graphics.newImage("LoveRunnerCharacter.png")
@@ -42,20 +41,21 @@ end
 function love.draw()
     love.graphics.setBackgroundColor(80/255, 100/255, 180/255)
 
-
     love.graphics.setColor(1, 1, 1)
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
+
     local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
     if player.inMove then
         if player.facingRight then
-            love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x, player.y, 0, player.scale, player.scale, 0, player.runningAnimationHeight)
+            love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x, player.y - (player.runningAnimationHeight * player.scale), 0, player.scale, player.scale)
         else
-            love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x, player.y, math.rad(180), player.scale, -player.scale, player.runningAnimationWidth, player.runningAnimationHeight)
+            love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x + (player.runningAnimationWidth * player.scale), player.y - (player.runningAnimationHeight * player.scale), math.rad(180), player.scale, -player.scale)
         end
     else
         if player.facingRight then
-            love.graphics.draw(player.img, player.x, player.y, 0, player.scale, player.scale, 0, player.runningAnimationHeight)
+            love.graphics.draw(player.img, player.x, player.y - (player.runningAnimationHeight * player.scale), 0, player.scale, player.scale)
         else
-            love.graphics.draw(player.img, player.x, player.y, math.rad(180), player.scale, -player.scale, player.runningAnimationWidth, player.runningAnimationHeight)
+            love.graphics.draw(player.img, player.x + (player.runningAnimationWidth * player.scale), player.y - (player.runningAnimationHeight * player.scale), math.rad(180), player.scale, -player.scale)
         end
     end
 
