@@ -5,17 +5,36 @@ function player:load(screenWidth, screenHeight)
     player.y = screenHeight/2
     player.img = love.graphics.newImage("LoveRunnerCharacter.png")
     player.speed = 320
+    player.jumpForce = 500
     player.facingRight = true
     player.runningAnimationWidth = 618
     player.runningAnimationHeight = 472
     player.scale = 0.2
     player.inMove = false
+    player.readyToJump = true
+    player.gravity = 9.8 * 100
+    player.velocityY = 0
 
     animation = newAnimation(love.graphics.newImage("mergedLoveRunner.png"), player.runningAnimationWidth, player.runningAnimationHeight, 0.4)
 end
 
 
+function player:physics(dt)
+    player.velocityY = player.velocityY + (player.gravity * dt)
+end
+
+
 function player:update(dt)
+    player.y = player.y + player.velocityY * dt
+    if player.y > screenHeight/2 then 
+        player.y = screenHeight/2 
+        player.readyToJump = true
+    end
+
+    if (love.keyboard.isDown("w") or love.keyboard.isDown('space')) and player.readyToJump then
+        player.velocityY = player.velocityY * dt - player.jumpForce
+        player.readyToJump = false
+    end
 
     if love.keyboard.isDown('d') or love.keyboard.isDown('right') then
         player.facingRight = true
@@ -40,6 +59,7 @@ function player:update(dt)
     end
     
 end
+
 
 function player:draw()
 

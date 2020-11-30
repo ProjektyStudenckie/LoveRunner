@@ -19,6 +19,7 @@ end
 
 
 function love.update(dt)
+    player:physics(dt)
     player:update(dt)
 end
 
