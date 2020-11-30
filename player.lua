@@ -4,18 +4,20 @@ function player:load(screenWidth, screenHeight)
     player.x = screenWidth/2
     player.y = screenHeight/2
     player.img = love.graphics.newImage("LoveRunnerCharacter.png")
+    player.jumpImg = love.graphics.newImage("LoveRunnerCharacterJump.png")
     player.speed = 320
     player.jumpForce = 500
     player.facingRight = true
     player.runningAnimationWidth = 618
-    player.runningAnimationHeight = 472
+    player.defaultWidth = 394
+    player.height = 472
     player.scale = 0.2
     player.inMove = false
     player.readyToJump = true
     player.gravity = 9.8 * 100
     player.velocityY = 0
 
-    animation = newAnimation(love.graphics.newImage("mergedLoveRunner.png"), player.runningAnimationWidth, player.runningAnimationHeight, 0.4)
+    animation = newAnimation(love.graphics.newImage("mergedLoveRunner.png"), player.runningAnimationWidth, player.height, 0.4)
 end
 
 
@@ -63,18 +65,27 @@ end
 
 function player:draw()
 
-    local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
-    if player.inMove then
-        if player.facingRight then
-            love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x, player.y - (player.runningAnimationHeight * player.scale), 0, player.scale, player.scale)
+    if player.readyToJump then
+        local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
+        
+        if player.inMove then
+            if player.facingRight then
+                love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x, player.y - (player.height * player.scale), 0, player.scale, player.scale)
+            else
+                love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x + (player.runningAnimationWidth * player.scale), player.y - (player.height * player.scale), math.rad(180), player.scale, -player.scale)
+            end
         else
-            love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x + (player.runningAnimationWidth * player.scale), player.y - (player.runningAnimationHeight * player.scale), math.rad(180), player.scale, -player.scale)
+            if player.facingRight then
+                love.graphics.draw(player.img, player.x, player.y - (player.height * player.scale), 0, player.scale, player.scale)
+            else
+                love.graphics.draw(player.img, player.x + (player.defaultWidth * player.scale), player.y - (player.height * player.scale), math.rad(180), player.scale, -player.scale)
+            end
         end
     else
         if player.facingRight then
-            love.graphics.draw(player.img, player.x, player.y - (player.runningAnimationHeight * player.scale), 0, player.scale, player.scale)
+            love.graphics.draw(player.jumpImg, player.x, player.y - (player.height * player.scale), 0, player.scale, player.scale)
         else
-            love.graphics.draw(player.img, player.x + (player.runningAnimationWidth * player.scale), player.y - (player.runningAnimationHeight * player.scale), math.rad(180), player.scale, -player.scale)
+            love.graphics.draw(player.jumpImg, player.x + (player.defaultWidth * player.scale), player.y - (player.height * player.scale), math.rad(180), player.scale, -player.scale)
         end
     end
 
