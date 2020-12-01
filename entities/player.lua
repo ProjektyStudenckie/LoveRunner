@@ -1,131 +1,148 @@
-player = {}
+local Class = require("libs.hump.class")
+local Entity = require("entities.Entity")
 
-function player:load(screenWidth, screenHeight)
-    player.x = screenWidth/2
-    player.y = screenHeight/2
+require("utils.animation")
 
-    player.runningAnimationWidth = 618
-    player.defaultWidth = 394
-    player.height = 472
-    player.scale = 0.2
+-- Class Player inherits from class Entity
+local player = Class{
+    __includes = Entity
+}
 
-    player.img = love.graphics.newImage("assets/LoveRunnerCharacter.png")
-    player.jumpImg = love.graphics.newImage("assets/LoveRunnerCharacterJump.png")
 
-    player.velocityX = 0
-    player.acceleration = 10000
-    player.maxSpeed = 320
-    player.friction = 10
+function player:init(world, x, y)
+    self.img = love.graphics.newImage("assets/LoveRunnerCharacter.png")
+    self.jumpImg = love.graphics.newImage("assets/LoveRunnerCharacterJump.png")
 
-    player.velocityY = 0
-    player.jumpForce = 500
-    player.gravity = 9.8 * 100
+    Entity.init(self, world, x, y, self.img:getWidth(), self.img:getHeight())
 
-    player.facingRight = true
-    player.inMove = false
-    player.readyToJump = true
+    self.defaultWidth = self.img:getWidth()
+    self.height = self.img:getHeight()
+    self.runningAnimationWidth = 618
+    self.scale = 0.2
 
-    animation = newAnimation(love.graphics.newImage("assets/mergedLoveRunner.png"), player.runningAnimationWidth, player.height, 0.4)
+    self.velocityX = 0
+    self.acceleration = 10000
+    self.maxSpeed = 320
+    self.friction = 15
+
+    self.velocityY = 0
+    self.jumpForce = 500
+    self.gravity = 9.8 * 100
+
+    self.facingRight = true
+    self.inMove = false
+    self.readyToJump = true
+
+    self.animation = newAnimation(love.graphics.newImage("assets/mergedLoveRunner.png"), self.runningAnimationWidth, self.height, 0.4)
 end
 
 
 function player:physics(dt)
     -- handle current position
-    player.x = player.x + player.velocityX * dt
-    player.y = player.y + player.velocityY * dt
+    self.x = self.x + self.velocityX * dt
+    self.y = self.y + self.velocityY * dt
 
     -- set friction ([IDEA] change this if walking on ice!)
-    player.velocityX = player.velocityX * (1 - math.min(dt * player.friction, 1))
+    self.velocityX = self.velocityX * (1 - math.min(dt * self.friction, 1))
 
     -- gravity affect on velocityY
-    player.velocityY = player.velocityY + (player.gravity * dt)
+    self.velocityY = self.velocityY + (self.gravity * dt)
 end
 
 
 function player:update(dt)
+    self:physics(dt)
+
     -- temporary ground for player
-    if player.y > screenHeight/2 then 
-        player.y = screenHeight/2 
-        player.readyToJump = true
+    if self.y > love.graphics.getHeight()/2 then 
+        self.y = love.graphics.getHeight()/2 
+        self.readyToJump = true
     end
 
     
-    if love.keyboard.isDown('w', "space") and player.readyToJump then
-        player.velocityY = player.velocityY * dt - player.jumpForce
-        player.readyToJump = false
+    if love.keyboard.isDown('w', "space") and self.readyToJump then
+        self.velocityY = self.velocityY * dt - self.jumpForce
+        self.readyToJump = false
     end
 
     if love.keyboard.isDown('d', "right") then
-        player.facingRight = true
-        player.inMove = true
+        self.facingRight = true
+        self.inMove = true
 
         -- increase velocity if not max speed
-        if player.velocityX < player.maxSpeed then
-            player.velocityX = player.velocityX + (player.acceleration * dt)
+        if self.velocityX < self.maxSpeed then
+            self.velocityX = self.velocityX + (self.acceleration * dt)
         end
 
         -- handle movement animations
-        animation.currentTime = animation.currentTime + dt
-        if animation.currentTime >= animation.duration then
-            animation.currentTime = animation.currentTime - animation.duration
+        self.animation.currentTime = self.animation.currentTime + dt
+        if self.animation.currentTime >= self.animation.duration then
+            self.animation.currentTime = self.animation.currentTime - self.animation.duration
         end
 
     elseif love.keyboard.isDown('a', "left") then
-        player.facingRight = false
-        player.inMove = true
+        self.facingRight = false
+        self.inMove = true
 
         -- "decrease" velocity if not max speed
-        if player.velocityX > -player.maxSpeed then
-            player.velocityX = player.velocityX - (player.acceleration * dt)
+        if self.velocityX > -self.maxSpeed then
+            self.velocityX = self.velocityX - (self.acceleration * dt)
         end
 
         -- handle movement animations
-        animation.currentTime = animation.currentTime + dt
-        if animation.currentTime >= animation.duration then
-            animation.currentTime = animation.currentTime - animation.duration
+        self.animation.currentTime = self.animation.currentTime + dt
+        if self.animation.currentTime >= self.animation.duration then
+            self.animation.currentTime = self.animation.currentTime - self.animation.duration
         end
     -- if player is not pressing any movement button set animation to standing
     else
-        player.inMove = false
+        self.inMove = false
         -- reset walking animation
-        animation.currentTime = 0
+        self.animation.currentTime = 0
     end
-    
 end
 
 
+
+
+
+
 function player:draw()
+
     -- Draw player on the ground ...
-    if player.readyToJump then
-        local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
+    if self.readyToJump then
+        local spriteNum = math.floor(self.animation.currentTime / self.animation.duration * #self.animation.quads) + 1
         -- ... moving and ...
-        if player.inMove then
+        if self.inMove then
             -- ... facing right.
-            if player.facingRight then
-                love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x, player.y - (player.height * player.scale), 0, player.scale, player.scale)
+            if self.facingRight then
+                love.graphics.draw(self.animation.spriteSheet, self.animation.quads[spriteNum], self.x, self.y - (self.height * self.scale), 0, self.scale, self.scale)
             else
             -- ... facing left.
-                love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], player.x + (player.runningAnimationWidth * player.scale), player.y - (player.height * player.scale), math.rad(180), player.scale, -player.scale)
+                love.graphics.draw(self.animation.spriteSheet, self.animation.quads[spriteNum], self.x + (self.runningAnimationWidth * self.scale), self.y - (self.height * self.scale), math.rad(180), self.scale, -self.scale)
             end
         -- ... standing still and ...
         else
             -- ... facing right.
-            if player.facingRight then
-                love.graphics.draw(player.img, player.x, player.y - (player.height * player.scale), 0, player.scale, player.scale)
+            if self.facingRight then
+                love.graphics.draw(self.img, self.x, self.y - (self.height * self.scale), 0, self.scale, self.scale)
             -- ... facing left.
             else
-                love.graphics.draw(player.img, player.x + (player.defaultWidth * player.scale), player.y - (player.height * player.scale), math.rad(180), player.scale, -player.scale)
+                love.graphics.draw(self.img, self.x + (self.defaultWidth * self.scale), self.y - (self.height * self.scale), math.rad(180), self.scale, -self.scale)
             end
         end
     -- Draw player in the air ...
     else
         -- ... facing right.
-        if player.facingRight then
-            love.graphics.draw(player.jumpImg, player.x, player.y - (player.height * player.scale), 0, player.scale, player.scale)
+        if self.facingRight then
+            love.graphics.draw(self.jumpImg, self.x, self.y - (self.height * self.scale), 0, self.scale, self.scale)
         -- ... facing left.
         else
-            love.graphics.draw(player.jumpImg, player.x + (player.defaultWidth * player.scale), player.y - (player.height * player.scale), math.rad(180), player.scale, -player.scale)
+            love.graphics.draw(self.jumpImg, self.x + (self.defaultWidth * self.scale), self.y - (self.height * self.scale), math.rad(180), self.scale, -self.scale)
         end
     end
 
 end
+
+
+return player

@@ -1,6 +1,9 @@
+Gamestate = require("libs.hump.gamestate")
 
-require "entities/player"
-require "utils/animation"
+local mainMenu = require("gamestates.mainmenu")
+local level1 = require("gamestates.level1")
+local pause = require("gamestates.pause")
+
 
 function love.load()
     love.window.setTitle("Love Runner")
@@ -14,29 +17,16 @@ function love.load()
         print("Problem with setting window dimensions.")
     end
 
-    player:load(screenWidth, screenHeight)
+    Gamestate.registerEvents()
+    Gamestate.switch(level1)
 end
 
-
-function love.update(dt)
-    player:physics(dt)
-    player:update(dt)
-end
-
-function love.draw()
-    love.graphics.setBackgroundColor(80/255, 100/255, 180/255)
-
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
-
-    player:draw()
-
-    love.graphics.setColor(60/255, 80/255, 100/255)
-    love.graphics.rectangle("fill", 0, love.graphics.getHeight()/2, love.graphics.getWidth(), love.graphics.getHeight())
-end
-
-function love.keypressed(key)
+function love.keypressed(key) 
     if key == "escape" then
         love.event.push("quit")
     end
+
+    -- if Gamestate.current() ~= mainMenu and key == 'p' then
+    --     Gamestate.push(pause)
+    -- end
 end
