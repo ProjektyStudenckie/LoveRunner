@@ -34,3 +34,9 @@ function love.draw()
     love.graphics.setColor(60/255, 80/255, 100/255)
     love.graphics.rectangle("fill", 0, love.graphics.getHeight()/2, love.graphics.getWidth(), love.graphics.getHeight())
 end
+
+function love.keypressed(key)
+    if key == "escape" then
+        love.event.push("quit")
+    end
+end
