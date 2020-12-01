@@ -9,8 +9,8 @@ function player:load(screenWidth, screenHeight)
     player.height = 472
     player.scale = 0.2
 
-    player.img = love.graphics.newImage("LoveRunnerCharacter.png")
-    player.jumpImg = love.graphics.newImage("LoveRunnerCharacterJump.png")
+    player.img = love.graphics.newImage("assets/LoveRunnerCharacter.png")
+    player.jumpImg = love.graphics.newImage("assets/LoveRunnerCharacterJump.png")
 
     player.velocityX = 0
     player.acceleration = 10000
@@ -25,7 +25,7 @@ function player:load(screenWidth, screenHeight)
     player.inMove = false
     player.readyToJump = true
 
-    animation = newAnimation(love.graphics.newImage("mergedLoveRunner.png"), player.runningAnimationWidth, player.height, 0.4)
+    animation = newAnimation(love.graphics.newImage("assets/mergedLoveRunner.png"), player.runningAnimationWidth, player.height, 0.4)
 end
 
 

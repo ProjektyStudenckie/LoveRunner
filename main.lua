@@ -1,6 +1,6 @@
 
-require "player"
-require "animation"
+require "entities/player"
+require "utils/animation"
 
 function love.load()
     love.window.setTitle("Love Runner")
