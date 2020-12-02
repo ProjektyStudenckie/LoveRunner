@@ -35,9 +35,7 @@ function level1:enter()
 end
 
 function level1:update(dt)
-    if pause then
-        print("paused")
-    else
+    if not pause then
         self.map:update(dt)
         LevelBase.Entities:update(dt)
 

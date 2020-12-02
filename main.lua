@@ -17,7 +17,7 @@ function love.load()
     end
 
     Gamestate.registerEvents()
-    Gamestate.switch(level1)
+    Gamestate.switch(mainMenu)
 end
 
 function love.keypressed(key) 
