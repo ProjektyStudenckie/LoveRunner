@@ -25,8 +25,4 @@ function love.keypressed(key)
     if key == "escape" then
         love.event.push("quit")
     end
-
-    -- if Gamestate.current() ~= mainMenu and key == 'p' then
-    --     Gamestate.push(pause)
-    -- end
 end

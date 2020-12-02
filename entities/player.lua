@@ -18,7 +18,7 @@ function player:init(world, x, y)
     self.defaultWidth = self.img:getWidth()
     self.height = self.img:getHeight()
     self.runningAnimationWidth = 618
-    self.scale = 0.2
+    self.scale = 0.15
 
     self.velocityX = 0
     self.acceleration = 10000
@@ -54,8 +54,8 @@ function player:update(dt)
     self:physics(dt)
 
     -- temporary ground for player
-    if self.y > love.graphics.getHeight()/2 then 
-        self.y = love.graphics.getHeight()/2 
+    if self.y > 448 then 
+        self.y = 448
         self.readyToJump = true
     end
 
