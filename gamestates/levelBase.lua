@@ -44,10 +44,4 @@ function LevelBase:positionCamera(player, camera)
     camera:setPosition(boundX, 0)
 end
 
-function LevelBase:keypressed(key)
-    if Gamestate.current() ~= pause and key == 'p' then
-        Gamestate.push(pause)
-    end
-end
-
 return LevelBase

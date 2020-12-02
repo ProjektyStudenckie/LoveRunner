@@ -2,7 +2,6 @@ Gamestate = require("libs.hump.gamestate")
 
 local mainMenu = require("gamestates.mainmenu")
 local level1 = require("gamestates.level1")
-local pause = require("gamestates.pause")
 
 
 function love.load()
@@ -22,7 +21,7 @@ function love.load()
 end
 
 function love.keypressed(key) 
-    if key == "escape" then
-        love.event.push("quit")
-    end
+    -- if key == "escape" then
+    --     love.event.push("quit")
+    -- end
 end

@@ -17,6 +17,8 @@ fpsDisplay = nil
 player = nil
 world = nil
 
+pause = false
+
 local level1 = Class{
     __includes = LevelBase
 }
@@ -33,10 +35,14 @@ function level1:enter()
 end
 
 function level1:update(dt)
-    self.map:update(dt)
-    LevelBase.Entities:update(dt)
+    if pause then
+        print("paused")
+    else
+        self.map:update(dt)
+        LevelBase.Entities:update(dt)
 
-    LevelBase.positionCamera(self, player, camera)
+        LevelBase.positionCamera(self, player, camera)
+    end
 end
   
 function level1:draw()
@@ -46,11 +52,26 @@ function level1:draw()
     LevelBase.Entities:draw()
 
     camera:unset()
+
+    if pause then
+        local w, h = love.graphics.getWidth(), love.graphics.getHeight()
+
+        love.graphics.setColor(0, 0, 0, .5)
+        love.graphics.rectangle('fill', 0, 0, w, h)
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.printf('PAUSE', 0, h/2, w, 'center')
+    end
 end
 
 
 function level1:keypressed(key)
-    LevelBase:keypressed(key)
+    if key == 'escape' then
+        if pause then
+            pause = false
+        else
+            pause = true
+        end
+    end
 end
 
 
