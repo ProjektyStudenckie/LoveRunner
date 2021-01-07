@@ -20,6 +20,8 @@ local LevelBase = Class{
 
         self.map:bump_init(self.world)
 
+        self.pause = false
+
         Entities:enter()
 
         background = Background(self.world)
@@ -42,6 +44,16 @@ function LevelBase:positionCamera(player, camera)
     end
   
     camera:setPosition(boundX, 0)
+end
+
+
+function LevelBase:keypressed(key)
+    if key == 'escape' then
+      pause = not pause
+    else if key == 'return' and pause then
+      love.event.push("quit")
+    end
+  end
 end
 
 return LevelBase

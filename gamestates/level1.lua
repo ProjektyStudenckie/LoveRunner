@@ -17,7 +17,6 @@ fpsDisplay = nil
 player = nil
 world = nil
 
-pause = false
 
 local level1 = Class{
     __includes = LevelBase
@@ -57,20 +56,10 @@ function level1:draw()
         love.graphics.setColor(0, 0, 0, .5)
         love.graphics.rectangle('fill', 0, 0, w, h)
         love.graphics.setColor(1, 1, 1)
-        love.graphics.printf('PAUSE', 0, h/2, w, 'center')
+        love.graphics.printf('PAUSE', 0, h/2 - 40, w, 'center')
+        love.graphics.printf('Press [esc] again to resume.', 0, h/2, w, 'center')
+        love.graphics.printf('Press [enter] to quit.', 0, h/2 + 20, w, 'center')
     end
 end
-
-
-function level1:keypressed(key)
-    if key == 'escape' then
-        if pause then
-            pause = false
-        else
-            pause = true
-        end
-    end
-end
-
 
 return level1

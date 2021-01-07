@@ -60,7 +60,7 @@ function player:update(dt)
     end
 
     
-    if love.keyboard.isDown('w', "space") and self.readyToJump then
+    if love.keyboard.isDown('w', "space", "up") and self.readyToJump then
         self.velocityY = self.velocityY * dt - self.jumpForce
         self.readyToJump = false
     end
