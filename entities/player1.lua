@@ -40,11 +40,12 @@ function player:init(world, x, y)
   self.maxSpeed = 400 -- the top speed
   self.gravity = 1000 -- we will accelerate towards the bottom
 
-  self.jumpForce = 500
+  self.jumpForce = 600
+  self.canJumpAgain = true
   -- These are values applying specifically to jumping
   self.jumpStartY = y
   self.jumpImpulse = 750
-  self.jumpMaxHeight = 5 -- pixels
+  self.jumpMaxHeight = 180 -- pixels
   self.jumpCurrentImpulse = 0
 
   -- for animations
@@ -64,7 +65,7 @@ function player:collisionFilter(other)
   local playerBottom = self.y + self.h
   local otherBottom = y + h
 
-  self.ulica = other
+  self.otherCollider = other
 
   --if playerBottom <= y then -- bottom of player collides with top of platform.
     return 'slide'
@@ -96,7 +97,8 @@ end
 function player:checkIfOnGround(ny, other)
   if ny < 0 then
     self.ground = other
-    self.ulica = other
+    self.otherCollider = other
+    self.canJumpAgain = true
   end
 end
 
@@ -105,9 +107,10 @@ function player:playerInput(dt)
   local vx = self.xRelativeVelocity
 
   -- dodałem moje skakanie - musisz ogarnąć zeby dobrze zmienialo state - jak wyladujesz na ziemi
-  if love.keyboard.isDown('w', "space", "up") and self.state ~= PlayerStates.Jumping then
+  if love.keyboard.isDown('w', "space", "up") and self.state ~= PlayerStates.Jumping and self.canJumpAgain then
     self.yVelocity = self.yVelocity * dt - self.jumpForce
     self.state = PlayerStates.Jumping
+    self.canJumpAgain = false
   end
 
   if love.keyboard.isDown("left", "a") and self.xVelocity > -self.maxSpeed then
@@ -188,10 +191,9 @@ function player:keypressed(key)
   end
 
   -- //TODO nwm czemu maxHeight nie dziala - ograniczyc wysokosc skoku
-  -- if (self.jumpStartY - self.y) < self.jumpMaxHeight then
-  --   self.yVelocity = -self.jumpImpulse -- no need to multiply by dt because this is instantaneous
-  -- else
-  --   self.yVelocity = 0
+  -- if (self.jumpStartY - self.y) > 200 then
+  --   self.yVelocity = 0 -- no need to multiply by dt because this is instantaneous
+  --   self.state = PlayerStates.Idle
   -- end
 end
 
@@ -199,7 +201,6 @@ function player:keyreleased(key)
   if key ~= "up" and key ~= "space" then
     return
   end
-
 
 end
 
@@ -232,7 +233,14 @@ function player:update(dt, index)
     self.yVelocity = self.yVelocity + self.gravity * dt -- Apply gravity
   end
 
-  -- //TODO
+    -- //TODO
+  -- jumping 
+  -- if self.state == PlayerStates.Jumping and (self.jumpStartY - self.y) > 50 then
+  --   self.yVelocity = 0
+  --   self.state = PlayerStates.Idle
+  -- end
+
+
   if self.y > love.graphics.getHeight() then
     self.yVelocity = 0
     self.xVelocity = 0
@@ -290,6 +298,8 @@ else
         love.graphics.draw(self.jumpImg, self.x + (self.defaultWidth * self.scale), self.y, math.rad(180), self.scale, -self.scale)
     end
 end
+
+love.graphics.print(tostring(self.jumpStartY - self.y), 100, 500)
 end
 
 return player
