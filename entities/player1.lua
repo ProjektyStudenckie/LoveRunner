@@ -106,7 +106,6 @@ function player:playerInput(dt)
   -- Do xVelocity logic
   local vx = self.xRelativeVelocity
 
-  -- dodałem moje skakanie - musisz ogarnąć zeby dobrze zmienialo state - jak wyladujesz na ziemi
   if love.keyboard.isDown('w', "space", "up") and self.state ~= PlayerStates.Jumping and self.canJumpAgain then
     self.yVelocity = self.yVelocity * dt - self.jumpForce
     self.state = PlayerStates.Jumping
@@ -267,16 +266,16 @@ end
 function player:draw()
 
   -- Draw player on the ground ...
-  if self.state ~= PlayerStates.Jumping then
+  if self.canJumpAgain then
     local spriteNum = math.floor(self.animation.currentTime / self.animation.duration * #self.animation.quads) + 1
     -- ... moving and ...
     if self.state ~= PlayerStates.Idle then
         -- ... facing right.
         if self.facingRight then
-            love.graphics.draw(self.animation.spriteSheet, self.animation.quads[spriteNum], self.x, self.y, 0, self.scale, self.scale)
+            love.graphics.draw(self.animation.spriteSheet, self.animation.quads[spriteNum], self.x - 20, self.y, 0, self.scale, self.scale)
         else
         -- ... facing left.
-            love.graphics.draw(self.animation.spriteSheet, self.animation.quads[spriteNum], self.x + (self.runningAnimationWidth * self.scale), self.y, math.rad(180), self.scale, -self.scale)
+            love.graphics.draw(self.animation.spriteSheet, self.animation.quads[spriteNum], self.x + (self.runningAnimationWidth * self.scale) - 15, self.y, math.rad(180), self.scale, -self.scale)
         end
     -- ... standing still and ...
     else
