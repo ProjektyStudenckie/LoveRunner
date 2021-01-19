@@ -51,4 +51,16 @@ function Entities:update(dt)
     end
 end
 
+function Entities:keypressed(key)
+    for i, e in ipairs(self.entityList) do
+      e:keypressed(key)
+    end
+  end
+  
+  function Entities:keyreleased(key)
+    for i, e in ipairs(self.entityList) do
+      e:keyreleased(key)
+    end
+  end
+
 return Entities

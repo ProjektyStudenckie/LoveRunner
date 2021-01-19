@@ -22,4 +22,12 @@ function Entity:update(dt)
 
 end
 
+function Entity:keypressed(key)
+
+end
+  
+function Entity:keyreleased(key)
+
+end
+
 return Entity

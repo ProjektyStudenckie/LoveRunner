@@ -10,27 +10,27 @@ local level1 = {}
 
 local Background = require("entities.background")
 local FpsDisplay = require("entities.fpsDisplay")
-local Player = require("entities.player")
+local Player = require("entities.player1")
+local Enemy = require 'entities.enemy'
 
 background = nil
 fpsDisplay = nil
 player = nil
-world = nil
+-- world = nil
 
 
 local level1 = Class{
     __includes = LevelBase
 }
 
-
 function level1:init()
     LevelBase.init(self, "assets/levels/map1.lua")
 end
 
 function level1:enter()
-    player = Player(self.world, love.graphics.getWidth()/2, love.graphics.getHeight()/2)
-
-    LevelBase.Entities:addMany({player})
+    player = Player(self.world, love.graphics.getWidth(), love.graphics.getHeight())
+    enemy = Enemy(self.world, 400, 200)
+    LevelBase.Entities:addMany({player, enemy})
 end
 
 function level1:update(dt)
@@ -61,5 +61,11 @@ function level1:draw()
         love.graphics.printf('Press [enter] to quit.', 0, h/2 + 20, w, 'center')
     end
 end
+
+-- function level1:addElem(x, y, w, h)
+--     local t = {}
+--     self.world:add(t, x, y, w, h)
+--     -- table.insert(t, self.elems)
+--   end
 
 return level1
