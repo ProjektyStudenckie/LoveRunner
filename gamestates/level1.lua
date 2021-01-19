@@ -24,12 +24,12 @@ local level1 = Class{
 }
 
 function level1:init()
-    LevelBase.init(self, "assets/levels/map1.lua")
+    LevelBase.init(self, "assets/levels/tutorialMap.lua")
 end
 
 function level1:enter()
     player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2)
-    enemy = Enemy(self.world, 400, 200)
+    enemy = Enemy(self.world, 2100, 200)
     LevelBase.Entities:addMany({player, enemy})
 end
 
@@ -48,7 +48,16 @@ function level1:draw()
 
     LevelBase.Entities:draw()
 
+    love.graphics.print('WELCOME IN LOVE RUNNER', 300, 100)
+    love.graphics.print('Use arrows or WASD to move your character.', 300, 120)
+
+    love.graphics.print('Use platforms to get to the finish line.', 300, 135)
+
+    love.graphics.print('Jump over your enemies!', 1700, 100)
+
     camera:unset()
+
+    
 
     if pause then
         local w, h = love.graphics.getWidth(), love.graphics.getHeight()

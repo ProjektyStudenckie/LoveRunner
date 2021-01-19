@@ -6,14 +6,16 @@ local enemy = Class{
 }
 
 function enemy:init(world, x, y) 
-    self.img = love.graphics.newImage("assets/character_block.png")
+    self.img = love.graphics.newImage("assets/slime.png")
 
-    Entity.init(self, world, x, y, self.img:getWidth(), self.img:getHeight())
+    self.scale = 2
+
+    Entity.init(self, world, x, y, self.img:getWidth() * self.scale, self.img:getHeight() * self.scale)
 
     self.xRelativeVelocity = 0
     self.xVelocity = 0 -- current velocity on x, y axes
     self.yVelocity = 0
-    self.acc = 100000 -- the acceleration of our player
+    self.acc = 3000 -- the acceleration of our player
     self.brakeAccel = 500
     self.maxSpeed = 5000 -- the top speed
     self.gravity = 1000 -- we will accelerate towards the bottom
@@ -110,7 +112,7 @@ function enemy:collisionFilter(other)
   end
 
   function enemy:draw()
-    love.graphics.draw(self.img, self.x, self.y)
+    love.graphics.draw(self.img, self.x, self.y, 0, self.scale, self.scale)
     --love.graphics.print("colission: " .. tostring(self.colisionMsg), 1000, 10)
 
   end

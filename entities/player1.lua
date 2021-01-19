@@ -233,7 +233,7 @@ function player:update(dt, index)
   end
 
   -- //TODO
-  if self.y > love.graphics.getHeight() - 100 then
+  if self.y > love.graphics.getHeight() then
     self.yVelocity = 0
     self.xVelocity = 0
     self.xRelativeVelocity = 0
