@@ -233,13 +233,21 @@ function player:update(dt, index)
   end
 
   -- //TODO
-  if self.y > love.graphics.getHeight() then
-    self.y = 200
-    self.x = 100
+  if self.y > love.graphics.getHeight() - 100 then
     self.yVelocity = 0
+    self.xVelocity = 0
+    self.xRelativeVelocity = 0
+    self.y = 300
+    self.x = 100
 
-    -- Entities:remove(self)
-    -- love.load()
+    self.facingRight = true
+    self.inMove = false
+    self.readyToJump = true
+    self.isGrounded = false
+    self.hasReachedMax = false
+    
+    local world = self.world
+    world:update(self, 300, 100)
   end
 
   self:move(dt)
@@ -282,9 +290,6 @@ else
         love.graphics.draw(self.jumpImg, self.x + (self.defaultWidth * self.scale), self.y, math.rad(180), self.scale, -self.scale)
     end
 end
-
-  -- print y
-  -- love.graphics.print("ground: " .. tostring(self.ulica), 1000, 10)
 end
 
 return player

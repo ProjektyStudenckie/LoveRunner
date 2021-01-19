@@ -111,7 +111,7 @@ function enemy:collisionFilter(other)
 
   function enemy:draw()
     love.graphics.draw(self.img, self.x, self.y)
-    love.graphics.print("colission: " .. tostring(self.colisionMsg), 1000, 10)
+    --love.graphics.print("colission: " .. tostring(self.colisionMsg), 1000, 10)
 
   end
   
