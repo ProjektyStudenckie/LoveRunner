@@ -22,6 +22,9 @@ function player:init(world, x, y)
   self.img = love.graphics.newImage('/assets/LoveRunnerCharacter.png')
   self.jumpImg = love.graphics.newImage('assets/LoveRunnerCharacterJump.png')
 
+  self.jumpSoundEffect = love.audio.newSource('assets/sound/jumpEffect.mp3', 'stream')
+  self.jumpSoundEffect:setVolume(0.05)
+
   self.scale = 0.15
   Entity.init(self, world, x, y, self.img:getWidth() * self.scale, self.img:getHeight() * self.scale)
 
@@ -110,6 +113,8 @@ function player:playerInput(dt)
     self.yVelocity = self.yVelocity * dt - self.jumpForce
     self.state = PlayerStates.Jumping
     self.canJumpAgain = false
+
+    self.jumpSoundEffect:play()
   end
 
   if love.keyboard.isDown("left", "a") and self.xVelocity > -self.maxSpeed then
