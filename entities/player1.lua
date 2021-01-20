@@ -25,6 +25,8 @@ function player:init(world, x, y)
   self.jumpSoundEffect = love.audio.newSource('assets/sound/jumpEffect.mp3', 'stream')
   self.jumpSoundEffect:setVolume(0.05)
 
+  self.levelCompleteSound = love.audio.newSource('assets/sound/levelCompleteSound.mp3', 'stream')
+
   self.scale = 0.15
   Entity.init(self, world, x, y, self.img:getWidth() * self.scale, self.img:getHeight() * self.scale)
 
@@ -88,6 +90,8 @@ function player:changeVelocityByCollisionNormal(col)
   if other.yVelocity and ((ny < 0 and vy > 0) or (ny > 0 and vy < 0)) then
     self.yVelocity = math.max(0, other.yVelocity)
   end
+
+  self.otherCollider = other
 end
 
 -- function player:setGround(other)
@@ -100,7 +104,6 @@ end
 function player:checkIfOnGround(ny, other)
   if ny < 0 then
     self.ground = other
-    self.otherCollider = other
     self.canJumpAgain = true
   end
 end
@@ -260,6 +263,7 @@ function player:update(dt, index)
     
     local world = self.world
     world:update(self, 300, 100)
+    self.levelCompleteSound:play()
   end
 
   self:move(dt)
@@ -303,7 +307,7 @@ else
     end
 end
 
-love.graphics.print(tostring(self.jumpStartY - self.y), 100, 500)
+-- love.graphics.print(tostring(self.otherCollider), 1500, 200)
 end
 
 return player

@@ -15,7 +15,7 @@ function enemy:init(world, x, y)
     self.xRelativeVelocity = 0
     self.xVelocity = 0 -- current velocity on x, y axes
     self.yVelocity = 0
-    self.acc = 3000 -- the acceleration of our player
+    self.acc = 100000 -- the acceleration of our player
     self.brakeAccel = 500
     self.maxSpeed = 5000 -- the top speed
     self.gravity = 1000 -- we will accelerate towards the bottom
@@ -39,6 +39,7 @@ function enemy:collisionFilter(other)
     --end
   end
 
+  -- // TODO usunac zmiane xVelocity 
   function enemy:changeVelocityByCollisionNormal(col)
     local other, normal = col.other, col.normal
     local nx, ny        = normal.x, normal.y
@@ -48,8 +49,8 @@ function enemy:collisionFilter(other)
       self.xVelocity = other.xVelocity
       self.xRelativeVelocity  = other.xVelocity
       self.colisionMsg = "yes"
-      other.y = 200
-      other.x = 100
+
+      self.world:update(other, 20, 20)
      
 
     else 
