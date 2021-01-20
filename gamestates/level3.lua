@@ -28,8 +28,13 @@ end
 
 function level3:enter()
     player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 3)
-    enemy = Enemy(self.world, 2100, 200)
-    LevelBase.Entities:addMany({player, enemy})
+    enemy = Enemy(self.world, 1200, 100)
+
+    enemy1 = Enemy(self.world, 1820, 100)
+    enemy2 = Enemy(self.world, 2450, 100)
+    enemy3 = Enemy(self.world, 2700, 100)
+
+    LevelBase.Entities:addMany({player, enemy, enemy1, enemy2, enemy3})
 end
 
 function level3:update(dt)

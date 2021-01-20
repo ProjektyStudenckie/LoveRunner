@@ -46,11 +46,14 @@ function enemy:collisionFilter(other)
     local vx, vy        = self.xVelocity, self.yVelocity
   
     if other.xVelocity and ((nx < 0 and vx > 0) or (nx > 0 and vx < 0)) then
-      self.xVelocity = other.xVelocity
-      self.xRelativeVelocity  = other.xVelocity
+      --self.xVelocity = other.xVelocity
+      --self.xRelativeVelocity  = other.xVelocity
       self.colisionMsg = "yes"
 
-      self.world:update(other, 300, 350)
+      other.y = 370
+      other.x = 300
+      self.world:update(other, 300, 370)
+      
      
 
     else 
