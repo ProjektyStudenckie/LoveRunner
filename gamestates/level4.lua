@@ -49,8 +49,8 @@ function level4:draw()
 
     LevelBase.Entities:draw()
 
-    love.graphics.print('THE END! CONGRATULATIONS', 2600, 200)
-    love.graphics.print('Go right to quit the game.', 2600, 220)
+    love.graphics.print('THE END! CONGRATULATIONS', 2600, 300)
+    love.graphics.print('Go right to quit the game.', 2600, 320)
 
     camera:unset()
 

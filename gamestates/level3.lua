@@ -23,11 +23,11 @@ local level3 = Class{
 }
 
 function level3:init()
-    LevelBase.init(self, "assets/levels/level4.lua")
+    LevelBase.init(self, "assets/levels/level3.lua")
 end
 
 function level3:enter()
-    player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 4)
+    player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 3)
     enemy = Enemy(self.world, 2100, 200)
     LevelBase.Entities:addMany({player, enemy})
 end
