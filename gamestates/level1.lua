@@ -71,10 +71,4 @@ function level1:draw()
     end
 end
 
--- function level1:addElem(x, y, w, h)
---     local t = {}
---     self.world:add(t, x, y, w, h)
---     -- table.insert(t, self.elems)
---   end
-
 return level1

@@ -15,7 +15,7 @@ function enemy:init(world, x, y)
     self.xRelativeVelocity = 0
     self.xVelocity = 0 -- current velocity on x, y axes
     self.yVelocity = 0
-    self.acc = 100000 -- the acceleration of our player
+    self.acc = 10000 -- the acceleration of our player
     self.brakeAccel = 500
     self.maxSpeed = 5000 -- the top speed
     self.gravity = 1000 -- we will accelerate towards the bottom

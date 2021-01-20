@@ -25,7 +25,11 @@ function player:init(world, x, y)
   self.jumpSoundEffect = love.audio.newSource('assets/sound/jumpEffect.mp3', 'stream')
   self.jumpSoundEffect:setVolume(0.05)
 
+  self.deathSoundEffect = love.audio.newSource('assets/sound/deathSoundEffect.mp3', 'stream')
+  self.deathSoundEffect:setVolume(0.5)
+
   self.levelCompleteSound = love.audio.newSource('assets/sound/levelCompleteSound.mp3', 'stream')
+  self.levelCompleteSound:setVolume(0.5)
 
   self.scale = 0.15
   Entity.init(self, world, x, y, self.img:getWidth() * self.scale, self.img:getHeight() * self.scale)
@@ -33,8 +37,6 @@ function player:init(world, x, y)
   self.defaultWidth = self.img:getWidth()
   self.runningAnimationWidth = 618
   self.height = self.img:getHeight()
-
-  -- //TODO set better values to improve movement fluidity
 
   -- Add our unique player values
   self.xRelativeVelocity = 0
@@ -94,12 +96,6 @@ function player:changeVelocityByCollisionNormal(col)
   self.otherCollider = other
 end
 
--- function player:setGround(other)
---   self.state = PlayerStates.Idle
---   self.ground = other
---   self.y = self.ground.y - self.h
---   self.world:update(self, self.x, self.y)
--- end
 
 function player:checkIfOnGround(ny, other)
   if ny < 0 then
@@ -196,12 +192,6 @@ function player:keypressed(key)
     self.state = PlayerStates.Jumping
     self.jumpStartY = self.y
   end
-
-  -- //TODO nwm czemu maxHeight nie dziala - ograniczyc wysokosc skoku
-  -- if (self.jumpStartY - self.y) > 200 then
-  --   self.yVelocity = 0 -- no need to multiply by dt because this is instantaneous
-  --   self.state = PlayerStates.Idle
-  -- end
 end
 
 function player:keyreleased(key)
@@ -240,13 +230,6 @@ function player:update(dt, index)
     self.yVelocity = self.yVelocity + self.gravity * dt -- Apply gravity
   end
 
-    -- //TODO
-  -- jumping 
-  -- if self.state == PlayerStates.Jumping and (self.jumpStartY - self.y) > 50 then
-  --   self.yVelocity = 0
-  --   self.state = PlayerStates.Idle
-  -- end
-
 
   if self.y > love.graphics.getHeight() then
     self.yVelocity = 0
@@ -263,7 +246,7 @@ function player:update(dt, index)
     
     local world = self.world
     world:update(self, 300, 100)
-    self.levelCompleteSound:play()
+    self.deathSoundEffect:play()
   end
 
   self:move(dt)
@@ -307,7 +290,6 @@ else
     end
 end
 
--- love.graphics.print(tostring(self.otherCollider), 1500, 200)
 end
 
 return player
