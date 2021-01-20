@@ -28,14 +28,6 @@ local LevelBase = Class{
         fpsDisplay = FpsDisplay(self.world)
 
         Entities:addMany({background, fpsDisplay})
-
-        -- Music downloaded from this link
-        -- https://freesound.org/people/ShadyDave/sounds/325647/
-        -- Created by ShadyDave
-        music = love.audio.newSource('assets/sound/backgroundMusic.mp3', 'stream')
-        music:setVolume(0.15)
-        music:setLooping( true )
-        music:play()
     end;
     Entities = Entities;
     camera = camera

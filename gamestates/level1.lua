@@ -25,6 +25,14 @@ local level1 = Class{
 function level1:init()
     LevelBase.init(self, "assets/levels/tutorialMap.lua")
     background = love.graphics.newImage("assets/backgroundImage.png")
+
+    -- Music downloaded from this link
+    -- https://freesound.org/people/ShadyDave/sounds/325647/
+    -- Created by ShadyDave
+    music = love.audio.newSource('assets/sound/backgroundMusic.mp3', 'stream')
+    music:setVolume(0.15)
+    music:setLooping( true )
+    music:play()
 end
 
 function level1:enter()
