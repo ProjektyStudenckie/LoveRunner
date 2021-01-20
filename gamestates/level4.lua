@@ -24,6 +24,7 @@ local level4 = Class{
 
 function level4:init()
     LevelBase.init(self, "assets/levels/level4.lua")
+    background = love.graphics.newImage("assets/caveBackgroundImage.jpg")
 end
 
 function level4:enter()
@@ -44,13 +45,14 @@ function level4:update(dt)
 end
   
 function level4:draw()
+    love.graphics.draw(background)
     camera:set()
     self.map:draw(-camera.x, -camera.y)
 
     LevelBase.Entities:draw()
 
-    love.graphics.print('THE END! CONGRATULATIONS', 2600, 300)
-    love.graphics.print('Go right to quit the game.', 2600, 320)
+    love.graphics.printf('THE END! CONGRATULATIONS!', love.graphics.newFont(40), 2400, 300, 500)
+    love.graphics.printf('Go right to quit the game.', love.graphics.newFont(28), 2400, 400, 500)
 
     camera:unset()
 

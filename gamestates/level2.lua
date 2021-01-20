@@ -24,6 +24,7 @@ local level2 = Class{
 
 function level2:init()
     LevelBase.init(self, "assets/levels/level2.lua")
+    background = love.graphics.newImage("assets/caveBackgroundImage.jpg")
 end
 
 function level2:enter()
@@ -44,9 +45,12 @@ function level2:update(dt)
 end
   
 function level2:draw()
+    
+    love.graphics.draw(background)
     camera:set()
+    
     self.map:draw(-camera.x, -camera.y)
-
+    
     LevelBase.Entities:draw()
 
     camera:unset()
