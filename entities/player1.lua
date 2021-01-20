@@ -258,6 +258,7 @@ function player:update(dt, index)
     local level3 = require("gamestates.level3")
     local level4 = require("gamestates.level4")
     local Gamestate = require("libs.hump.gamestate")
+    self.levelCompleteSound:play()
 
     if self.level == 1 then
       Gamestate.switch(level2)

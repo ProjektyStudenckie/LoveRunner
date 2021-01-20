@@ -12,6 +12,7 @@ local Background = require("entities.background")
 local FpsDisplay = require("entities.fpsDisplay")
 local Player = require("entities.player1")
 local Enemy = require 'entities.enemy'
+local Heart = require 'entities.heart'
 
 background = nil
 fpsDisplay = nil
@@ -40,7 +41,9 @@ function level1:enter()
     enemy = Enemy(self.world, 2100, 200)
     enemy1 = Enemy(self.world, 2400, 200)
     enemy2 = Enemy(self.world, 1500, 200)
-    LevelBase.Entities:addMany({player, enemy, enemy1, enemy2})
+    heart1 = Heart(self.world, 950, 0)
+    heart2 = Heart(self.world, 1600, -500)
+    LevelBase.Entities:addMany({player, enemy, enemy1, enemy2, heart1, heart2})
 end
 
 function level1:update(dt)
@@ -66,6 +69,8 @@ function level1:draw()
     love.graphics.print('Use platforms to get to the finish line.', 300, 135)
 
     love.graphics.print('Jump over your enemies!', 1700, 100)
+
+    love.graphics.print('Colected hearts: ' .. tostring(Heart.colectedHearts), 3000, 200)
 
     camera:unset()
 

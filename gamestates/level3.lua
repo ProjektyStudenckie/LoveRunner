@@ -12,6 +12,7 @@ local Background = require("entities.background")
 local FpsDisplay = require("entities.fpsDisplay")
 local Player = require("entities.player1")
 local Enemy = require 'entities.enemy'
+local Heart = require 'entities.heart'
 
 background = nil
 fpsDisplay = nil
@@ -29,13 +30,17 @@ end
 
 function level3:enter()
     player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 3)
+    
     enemy = Enemy(self.world, 1200, 100)
-
     enemy1 = Enemy(self.world, 1820, 100)
     enemy2 = Enemy(self.world, 2450, 100)
     enemy3 = Enemy(self.world, 2700, 100)
 
-    LevelBase.Entities:addMany({player, enemy, enemy1, enemy2, enemy3})
+    heart1 = Heart(self.world, 630, 0)
+    heart2 = Heart(self.world, 900, -700)
+    heart3 = Heart(self.world, 1500, -1150)
+
+    LevelBase.Entities:addMany({player, enemy, enemy1, enemy2, enemy3, heart1, heart2, heart3})
 end
 
 function level3:update(dt)
