@@ -245,7 +245,7 @@ function player:update(dt, index)
     self.hasReachedMax = false
     
     local world = self.world
-    world:update(self, 300, 100)
+    world:update(self, 300, 370)
     self.deathSoundEffect:play()
   end
 
