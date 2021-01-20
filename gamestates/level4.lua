@@ -6,7 +6,7 @@ local LevelBase = require 'gamestates.LevelBase'
 local Entities = require("entities.entities")
 local Entity = require("entities.entity")
 
-local level1 = {}
+local level4 = {}
 
 local Background = require("entities.background")
 local FpsDisplay = require("entities.fpsDisplay")
@@ -18,23 +18,23 @@ fpsDisplay = nil
 player = nil
 
 
-local level1 = Class{
+local level4 = Class{
     __includes = LevelBase
 }
 
-function level1:init()
-    LevelBase.init(self, "assets/levels/tutorialMap.lua")
+function level4:init()
+    LevelBase.init(self, "assets/levels/level4.lua")
 end
 
-function level1:enter()
-    player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 1)
-    enemy = Enemy(self.world, 2100, 200)
-    enemy1 = Enemy(self.world, 2400, 200)
-    enemy2 = Enemy(self.world, 1500, 200)
+function level4:enter()
+    player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 4)
+    enemy = Enemy(self.world, 1700, 250)
+    enemy1 = Enemy(self.world, 1850, 250)
+    enemy2 = Enemy(self.world, 2000, 250)
     LevelBase.Entities:addMany({player, enemy, enemy1, enemy2})
 end
 
-function level1:update(dt)
+function level4:update(dt)
     if not pause then
         self.map:update(dt)
         LevelBase.Entities:update(dt)
@@ -43,22 +43,17 @@ function level1:update(dt)
     end
 end
   
-function level1:draw()
+function level4:draw()
     camera:set()
     self.map:draw(-camera.x, -camera.y)
 
     LevelBase.Entities:draw()
 
-    love.graphics.print('WELCOME IN LOVE RUNNER', 300, 100)
-    love.graphics.print('Use arrows or WASD to move your character.', 300, 120)
-
-    love.graphics.print('Use platforms to get to the finish line.', 300, 135)
-
-    love.graphics.print('Jump over your enemies!', 1700, 100)
+    love.graphics.print('THE END! CONGRATULATIONS', 2600, 200)
+    love.graphics.print('Go right to quit the game.', 2600, 220)
 
     camera:unset()
 
-    
 
     if pause then
         local w, h = love.graphics.getWidth(), love.graphics.getHeight()
@@ -72,4 +67,4 @@ function level1:draw()
     end
 end
 
-return level1
+return level4

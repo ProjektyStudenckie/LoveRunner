@@ -16,7 +16,6 @@ local Enemy = require 'entities.enemy'
 background = nil
 fpsDisplay = nil
 player = nil
--- world = nil
 
 
 local level2 = Class{
@@ -29,8 +28,10 @@ end
 
 function level2:enter()
     player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 2)
-    enemy = Enemy(self.world, 2100, 200)
-    LevelBase.Entities:addMany({player, enemy})
+    enemy = Enemy(self.world, 850, 300)
+    enemy1 = Enemy(self.world, 1250, 300)
+    enemy2 = Enemy(self.world, 2550, 300)
+    LevelBase.Entities:addMany({player, enemy, enemy1, enemy2})
 end
 
 function level2:update(dt)

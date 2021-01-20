@@ -256,13 +256,19 @@ function player:update(dt, index)
   if self.x > 3200 then
     local level1 = require("gamestates.level1")
     local level2 = require("gamestates.level2")
+    local level3 = require("gamestates.level2")
+    local level4 = require("gamestates.level4")
+    local mainMenu = require("gamestates.mainmenu")
     local Gamestate = require("libs.hump.gamestate")
 
     if self.level == 1 then
       Gamestate.switch(level2)
     elseif self.level == 2 then
-      -- go to level 3
-      Gamestate.switch(level1)
+      Gamestate.switch(level4)
+    elseif self.level == 3 then
+      Gamestate.switch(level4)
+    elseif self.level == 4 then
+      love.event.push("quit")
     end
   end
 end

@@ -50,7 +50,7 @@ function enemy:collisionFilter(other)
       self.xRelativeVelocity  = other.xVelocity
       self.colisionMsg = "yes"
 
-      self.world:update(other, 20, 20)
+      self.world:update(other, 300, 350)
      
 
     else 
