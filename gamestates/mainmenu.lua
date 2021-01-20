@@ -1,7 +1,7 @@
 local Gamestate = require("libs.hump.gamestate")
 local Class = require 'libs.hump.class'
 
-local level1 = require("gamestates.level3")
+local level1 = require("gamestates.level1")
 
 
 local
