@@ -28,7 +28,7 @@ function level2:init()
 end
 
 function level2:enter()
-    player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2)
+    player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 2)
     enemy = Enemy(self.world, 2100, 200)
     LevelBase.Entities:addMany({player, enemy})
 end

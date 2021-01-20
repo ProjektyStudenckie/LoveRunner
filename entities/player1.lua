@@ -17,7 +17,8 @@ local PlayerStates = {
   Dead = 4
 }
 
-function player:init(world, x, y)
+function player:init(world, x, y, level)
+  self.level = level
   self.state = PlayerStates.Idle
   self.img = love.graphics.newImage('/assets/LoveRunnerCharacter.png')
   self.jumpImg = love.graphics.newImage('assets/LoveRunnerCharacterJump.png')
@@ -251,6 +252,19 @@ function player:update(dt, index)
 
   self:move(dt)
   self.ground = nil
+
+  if self.x > 3200 then
+    local level1 = require("gamestates.level1")
+    local level2 = require("gamestates.level2")
+    local Gamestate = require("libs.hump.gamestate")
+
+    if self.level == 1 then
+      Gamestate.switch(level2)
+    elseif self.level == 2 then
+      -- go to level 3
+      Gamestate.switch(level1)
+    end
+  end
 end
 
 
