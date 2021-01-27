@@ -26,6 +26,9 @@ local level3 = Class{
 function level3:init()
     LevelBase.init(self, "assets/levels/level3.lua")
     background = love.graphics.newImage("assets/backgroundImage.png")
+
+    background1 = love.graphics.newImage("assets/cloud1.png")
+    backgrounds = {background1}
 end
 
 function level3:enter()
@@ -54,6 +57,15 @@ end
   
 function level3:draw()
     love.graphics.draw(background)
+    for i = #backgrounds, 1, -1 do
+        local newScroll = camera.x - (#backgrounds - i) * 10
+
+        for x = 0, 6000 / background:getWidth() do
+            love.graphics.draw(backgrounds[i], -1.2 * newScroll + (x * backgrounds[i]:getWidth()), 0, 0, 0.2, 0.2)
+        end
+    end
+
+    LevelBase.Entities:drawFirst()
     camera:set()
     self.map:draw(-camera.x, -camera.y)
 

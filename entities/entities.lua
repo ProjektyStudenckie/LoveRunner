@@ -41,7 +41,15 @@ end
 
 function Entities:draw()
     for i, e in ipairs(self.entityList) do
-        e:draw(i)
+        if i ~= 1 then
+            e:draw(i)
+        end
+    end
+end
+
+function Entities:drawFirst()
+    if (table.getn(self.entityList) > 0) then
+        self.entityList[1]:draw()
     end
 end
 

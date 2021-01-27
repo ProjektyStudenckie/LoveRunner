@@ -18,9 +18,9 @@ function enemy:init(world, x, y)
     self.xRelativeVelocity = 0
     self.xVelocity = 0 -- current velocity on x, y axes
     self.yVelocity = 0
-    self.acc = 10000 -- the acceleration of our player
+    self.acc = 30000 -- the acceleration of our player
     self.brakeAccel = 500
-    self.maxSpeed = 5000 -- the top speed
+    self.maxSpeed = 150 -- the top speed
     self.gravity = 1000 -- we will accelerate towards the bottom
 
     self.defaultX = self.x
@@ -49,16 +49,13 @@ function enemy:collisionFilter(other)
     local vx, vy        = self.xVelocity, self.yVelocity
   
     if other.xVelocity and ((nx < 0 and vx > 0) or (nx > 0 and vx < 0)) then
-      --self.xVelocity = other.xVelocity
-      --self.xRelativeVelocity  = other.xVelocity
+
       self.colisionMsg = "yes"
 
       other.y = 370
       other.x = 300
       self.world:update(other, 300, 370)
       self.deathSoundEffect:play()
-      
-     
 
     else 
       self.colisionMsg = "no"

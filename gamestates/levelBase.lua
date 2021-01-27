@@ -7,9 +7,12 @@ local camera = require("libs.camera")
 
 local Background = require("entities.background")
 local FpsDisplay = require("entities.fpsDisplay")
+local HeartCounter = require("entities.heartCounter")
 
 background = nil
 fpsDisplay = nil
+heartCounter = nil
+
 
 local LevelBase = Class{
     __includes = Gamestate,
@@ -26,8 +29,9 @@ local LevelBase = Class{
 
         background = Background(self.world)
         fpsDisplay = FpsDisplay(self.world)
+        heartCounter = HeartCounter(self.world)
 
-        Entities:addMany({background, fpsDisplay})
+        Entities:addMany({heartCounter, background, fpsDisplay})
     end;
     Entities = Entities;
     camera = camera
@@ -45,7 +49,6 @@ function LevelBase:positionCamera(player, camera)
   
     camera:setPosition(boundX, 0)
 end
-
 
 function LevelBase:keypressed(key)
     if key == 'escape' then

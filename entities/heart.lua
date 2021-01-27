@@ -1,6 +1,7 @@
 local Class = require("libs.hump.class")
 local Entity = require("entities.Entity")
 local Entities = require("entities.Entities")
+local HeartCounter = require("entities.HeartCounter")
 
 local heart = Class{
     __includes = Entity
@@ -29,8 +30,6 @@ function heart:init(world, x, y)
 
     self.colisionMsg = "no"
     self.shouldDraw = true
-    -- self.colectedHearts = 0
-    colectedHearts = 0
 
     self.jumpSoundEffect = love.audio.newSource('assets/sound/jumpEffect.mp3', 'stream')
     self.jumpSoundEffect:setVolume(0.05)
@@ -53,13 +52,14 @@ function heart:collisionFilter(other)
     local nx, ny        = normal.x, normal.y
     local vx, vy        = self.xVelocity, self.yVelocity
   
+    -- collision with player
     if other.yVelocity and ((ny < 0 and vy > 0) or (ny > 0 and vy < 0)) then
         self.colisionMsg = "yes"
         --//TODO DESTROY
         self.shouldDraw = false
         self.yVelocity = -10000
         self.gravity = 0
-        colectedHearts = colectedHearts + 1
+        HeartCounter:addHeart()
         self.collectSound:play()
     end
 

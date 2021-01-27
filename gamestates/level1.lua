@@ -15,8 +15,10 @@ local Enemy = require 'entities.enemy'
 local Heart = require 'entities.heart'
 
 background = nil
+backgrounds = nil
 fpsDisplay = nil
 player = nil
+scroll = 0
 
 
 local level1 = Class{
@@ -26,6 +28,18 @@ local level1 = Class{
 function level1:init()
     LevelBase.init(self, "assets/levels/tutorialMap.lua")
     background = love.graphics.newImage("assets/backgroundImage.png")
+
+    self.width = love.graphics.getWidth()
+
+    -- background1 = love.graphics.newImage("assets/hill1.png")
+    -- background2 = love.graphics.newImage("assets/hill2.png")
+    -- background3 = love.graphics.newImage("assets/huge_clouds.png")
+    -- background4 = love.graphics.newImage("assets/clouds.png")
+    -- backgrounds = { background1, background2, background3, background4 }
+
+    background1 = love.graphics.newImage("assets/cloud1.png")
+    backgrounds = {background1}
+
 
     -- Music downloaded from this link
     -- https://freesound.org/people/ShadyDave/sounds/325647/
@@ -40,7 +54,7 @@ function level1:enter()
     player = Player(self.world, love.graphics.getWidth()/3, love.graphics.getHeight()/2, 1)
     enemy = Enemy(self.world, 2100, 200)
     enemy1 = Enemy(self.world, 2400, 200)
-    enemy2 = Enemy(self.world, 1500, 200)
+    enemy2 = Enemy(self.world, 1600, 200)
     heart1 = Heart(self.world, 950, 0)
     heart2 = Heart(self.world, 1600, -500)
     LevelBase.Entities:addMany({player, enemy, enemy1, enemy2, heart1, heart2})
@@ -57,6 +71,16 @@ end
   
 function level1:draw()
     love.graphics.draw(background)
+    for i = #backgrounds, 1, -1 do
+        local newScroll = camera.x - (#backgrounds - i) * 10
+
+        for x = 0, 6000 / background:getWidth() do
+            love.graphics.draw(backgrounds[i], -1.2 * newScroll + (x * backgrounds[i]:getWidth()), 0, 0, 0.2, 0.2)
+        end
+    end
+
+    LevelBase.Entities:drawFirst()
+
     camera:set()
     
     self.map:draw(-camera.x, -camera.y)
@@ -69,8 +93,6 @@ function level1:draw()
     love.graphics.print('Use platforms to get to the finish line.', 300, 135)
 
     love.graphics.print('Jump over your enemies!', 1700, 100)
-
-    love.graphics.print('Colected hearts: ' .. tostring(Heart.colectedHearts), 3000, 200)
 
     camera:unset()
 

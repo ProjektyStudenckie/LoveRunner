@@ -47,6 +47,7 @@ end
 function level2:draw()
     
     love.graphics.draw(background)
+    LevelBase.Entities:drawFirst()
     camera:set()
     
     self.map:draw(-camera.x, -camera.y)
